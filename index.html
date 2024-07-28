@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Advanced Dashboard</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap');
+    
+    body {
+        font-family: 'Roboto', sans-serif;
+        background: url('https://static.vecteezy.com/system/resources/previews/006/852/804/non_2x/abstract-blue-background-simple-design-for-your-website-free-vector.jpg') no-repeat center center fixed;
+        background-size: cover;
+        color: #ffffff;
+        margin: 0;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+        overflow-x: hidden;
+    }
+    .top-section {
+        display: flex;
+        width: 95%;
+        max-width: 1400px;
+        margin-bottom: 20px;
+    }
+    .banner {
+        flex: 2;
+        height: 200px;
+        background: url('https://i.pinimg.com/originals/ff/81/de/ff81dee1dcdd40d560569fe2ae94b6d3.gif') no-repeat center center;
+        background-size: cover;
+        border-radius: 10px;
+        animation: fadeIn 1s ease-in-out;
+        margin-right: 20px;
+    }
+    .gif-banner {
+        flex: 1;
+        height: 200px;
+        background: url('https://sayvirtual.com/wp-content/uploads/2024/04/bbe642_62414e50bef34ce28db1afabf55f17ecmv2.gif') no-repeat center center;
+        background-size: contain;
+        border-radius: 10px;
+        animation: fadeIn 1.5s ease-in-out;
+    }
+    .developer-info {
+        margin-top: 10px;
+        font-size: 1.2em;
+        text-align: center;
+        background-color: rgba(0, 0, 0, 0.7);
+        padding: 10px;
+        border-radius: 10px;
+        width: fit-content;
+    }
+    .search-container, .table-container {
+        width: 95%;
+        max-width: 1400px;
+        margin-bottom: 20px;
+    }
+    .search-container {
+        position: relative;
+    }
+    .search-container input {
+        width: 100%;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #444;
+        margin-bottom: 20px;
+        font-size: 1em;
+        color: #333;
+    }
+    .table-container {
+        background-color: rgba(42, 42, 42, 0.9);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        border-radius: 15px;
+        overflow: hidden;
+        border: 1px solid #444;
+        animation: fadeIn 0.6s ease-in-out;
+    }
+    .table-header {
+        background: linear-gradient(135deg, #1cb5e0 0%, #000851 100%);
+        padding: 20px;
+        color: #fff;
+        text-align: center;
+        font-size: 2.5em;
+        font-weight: bold;
+        border-bottom: 1px solid #444;
+        animation: slideIn 1s ease-in-out;
+        letter-spacing: 2px;
+        font-family: 'Orbitron', sans-serif;
+        position: relative;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        border: none;
+        table-layout: fixed;
+    }
+    th, td {
+        padding: 20px;
+        text-align: left;
+        border-bottom: 1px solid #444;
+        overflow-wrap: break-word;
+    }
+    th {
+        background-color: #333;
+        font-weight: bold;
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    th:hover {
+        background-color: #444;
+    }
+    tr:nth-child(even) {
+        background-color: #2e2e2e;
+    }
+    tr:hover {
+        background-color: #393939;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        transform: scale(1.01);
+    }
+    .highlight {
+        background-color: #ffeb3b;
+        animation: highlightAnim 1s ease-in-out;
+    }
+    .tooltip {
+        display: none;
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #555;
+        color: #fff;
+        padding: 10px;
+        border-radius: 5px;
+        white-space: nowrap;
+        z-index: 100;
+        opacity: 0;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    td:hover .tooltip {
+        display: block;
+        opacity: 1;
+        transform: translateX(-50%) translateY(-10px);
+    }
+    a {
+        color: #1cb5e0;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+    a:hover {
+        color: #ffffff;
+    }
+    .icon {
+        width: 24px;
+        height: 24px;
+        vertical-align: middle;
+        margin-right: 8px;
+    }
+    .cell-with-icon {
+        display: flex;
+        align-items: center;
+    }
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    @keyframes highlightAnim {
+        from { background-color: #fff; }
+        to { background-color: #ffeb3b; }
+    }
+</style>
+</head>
+<body>
+
+<div class="top-section">
+    <div class="banner"></div>
+    <div class="gif-banner"></div>
+</div>
+
+<div class="developer-info">
+    Developed by Sayed Arfat | Contact: sayedarfat01@gmail.com | Language Used: HTML & CSS
+</div>
+
+<div class="search-container">
+    <input type="text" id="searchInput" placeholder="Search for names..">
+</div>
+
+<div class="table-container">
+    <div class="table-header">
+        Sample Project Data Overview
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Country</th>
+                <th>Age</th>
+                <th>Status</th>
+                <th>% Progress</th>
+                <th>Gender</th>
+                <th>Growth in Sales</th>
+                <th>Win Ratio</th>
+                <th>Index</th>
+                <th>Project Link</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr id="rowJohn">
+                <td>100344</td>
+                <td>John</td>
+                <td>USA</td>
+                <td>37</td>
+                <td>Active <span class="tooltip">Employee is currently active</span></td>
+                <td>20%</td>
+                <td>Male</td>
+                <td>0.20</td>
+                <td>1:3</td>
+                <td>2.5</td>
+                <td><a href="http://www.google.com" target="_blank">Link</a></td>
+            </tr>
+            <tr id="rowJuly">
+                <td>100345</td>
+                <td>July</td>
+                <td>USA</td>
+                <td>29</td>
+                <td>Inactive <span class="tooltip">Employee is currently inactive</span></td>
+                <td>35%</td>
+                <td>Female</td>
+                <td>-0.05</td>
+                <td>2:5</td>
+                <td><a href="http://www.google.com" target="_blank">Link</a></td>
+            </tr>
+            <!-- Add more rows as needed -->
+        </tbody>
+    </table>
+</div>
+
+<div class="table-container">
+    <div class="table-header">
+     
+                        Additional Data Overview
+                    </div>
+                    <table id="additionalTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Country</th>
+                                <th>Age</th>
+                                <th>Status</th>
+                                <th>% Progress</th>
+                                <th>Gender</th>
+                                <th>Growth in Sales</th>
+                                <th>Win Ratio</th>
+                                <th>Index</th>
+                                <th>Project Link</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr id="rowLisa">
+                                <td>100346</td>
+                                <td>Lisa</td>
+                                <td>Canada</td>
+                                <td>25</td>
+                                <td>Active <span class="tooltip">Employee is currently active</span></td>
+                                <td>45%</td>
+                                <td>Female</td>
+                                <td>0.50</td>
+                                <td>2:1</td>
+                                <td>3.0</td>
+                                <td><a href="http://www.google.com" target="_blank">Link</a></td>
+                            </tr>
+                            <tr id="rowMike">
+                                <td>100347</td>
+                                <td>Mike</td>
+                                <td>UK</td>
+                                <td>40</td>
+                                <td>Inactive <span class="tooltip">Employee is currently inactive</span></td>
+                                <td>50%</td>
+                                <td>Male</td>
+                                <td>0.10</td>
+                                <td>1:2</td>
+                                <td>1.5</td>
+                                <td><a href="http://www.google.com" target="_blank">Link</a></td>
+                            </tr>
+                            <tr id="rowAnna">
+                                <td>100348</td>
+                                <td>Anna</td>
+                                <td>Germany</td>
+                                <td>30</td>
+                                <td>Active <span class="tooltip">Employee is currently active</span></td>
+                                <td>60%</td>
+                                <td>Female</td>
+                                <td>0.30</td>
+                                <td>1:1</td>
+                                <td>2.0</td>
+                                <td><a href="http://www.google.com" target="_blank">Link</a></td>
+                            </tr>
+                            <tr id="rowTom">
+                                <td>100349</td>
+                                <td>Tom</td>
+                                <td>France</td>
+                                <td>35</td>
+                                <td>Inactive <span class="tooltip">Employee is currently inactive</span></td>
+                                <td>25%</td>
+                                <td>Male</td>
+                                <td>-0.10</td>
+                                <td>2:3</td>
+                                <td>1.0</td>
+                                <td><a href="http://www.google.com" target="_blank">Link</a></td>
+                            </tr>
+                            <tr id="rowSara">
+                                <td>100350</td>
+                                <td>Sara</td>
+                                <td>Australia</td>
+                                <td>28</td>
+                                <td>Active <span class="tooltip">Employee is currently active</span></td>
+                                <td>70%</td>
+                                <td>Female</td>
+                                <td>0.40</td>
+                                <td>2:2</td>
+                                <td>2.5</td>
+                                <td><a href="http://www.google.com" target="_blank">Link</a></td>
+                            </tr>
+                            <tr id="rowAlex">
+                                <td>100351</td>
+                                <td>Alex</td>
+                                <td>Japan</td>
+                                <td>29</td>
+                                <td>Inactive <span class="tooltip">Employee is currently inactive</span></td>
+                                <td>40%</td>
+                                <td>Male</td>
+                                <td>0.20</td>
+                                <td>3:4</td>
+                                <td>1.8</td>
+                                <td><a href="http://www.google.com" target="_blank">Link</a></td>
+                            </tr>
+                            <tr id="rowNina">
+                                <td>100352</td>
+                                <td>Nina</td>
+                                <td>Italy</td>
+                                <td>32</td>
+                                <td>Active <span class="tooltip">Employee is currently active</span></td>
+                                <td>80%</td>
+                                <td>Female</td>
+                                <td>0.60</td>
+                                <td>2:1</td>
+                                <td>3.5</td>
+                                <td><a href="http://www.google.com" target="_blank">Link</a></td>
+                            </tr>
+                            <tr id="rowLeo">
+                                <td>100353</td>
+                                <td>Leo</td>
+                                <td>Brazil</td>
+                                <td>27</td>
+                                <td>Inactive <span class="tooltip">Employee is currently inactive</span></td>
+                                <td>30%</td>
+                                <td>Male</td>
+                                <td>-0.15</td>
+                                <td>1:3</td>
+                                <td>2.2</td>
+                                <td><a href="http://www.google.com" target="_blank">Link</a></td>
+                            </tr>
+                            <tr id="rowEva">
+                                <td>100354</td>
+                                <td>Eva</td>
+                                <td>India</td>
+                                <td>26</td>
+                                <td>Active <span class="tooltip">Employee is currently active</span></td>
+                                <td>90%</td>
+                                <td>Female</td>
+                                <td>0.80</td>
+                                <td>3:1</td>
+                                <td>3.8</td>
+                                <td><a href="http://www.google.com" target="_blank">Link</a></td>
+                            </tr>
+                            <tr id="rowSam">
+                                <td>100355</td>
+                                <td>Sam</td>
+                                <td>Mexico</td>
+                                <td>31</td>
+                                <td>Inactive <span class="tooltip">Employee is currently inactive</span></td>
+                                <td>50%</td>
+                                <td>Male</td>
+                                <td>0.10</td>
+                                <td>1:1</td>
+                                <td>2.1</td>
+                                <td><a href="http://www.google.com" target="_blank">Link</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
